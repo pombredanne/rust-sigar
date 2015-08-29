@@ -2,7 +2,7 @@ use std::default::Default;
 use std::ffi::CStr;
 use std::str;
 
-use libc::{c_int, c_double, c_char, uint64_t};
+use libc::{c_int, c_double, c_char, c_void, uint64_t};
 
 #[link(name = "sigar")]
 extern {
@@ -27,7 +27,7 @@ extern {
 }
 
 #[repr(C)]
-pub struct sigar_t;
+pub struct sigar_t {dummy: c_void}
 
 #[repr(C)]
 #[derive(Debug)]
