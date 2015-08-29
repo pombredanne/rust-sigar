@@ -133,3 +133,31 @@ pub fn swap() -> Result<Swap, String> {
         })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::cpu;
+
+    #[test]
+    fn it_collects_cpu_information() {
+        let cpu = super::cpu().ok().expect("failed to get cpu information");
+
+        assert!(cpu.user > 0);
+        assert!(cpu.sys > 0);
+        assert!(cpu.idle > 0);
+        assert!(cpu.total > 0);
+
+        assert_eq!(cpu.user + cpu.sys + cpu.idle, cpu.total);
+    }
+
+    #[test]
+    fn it_collects_memory_information() {
+        let memory = super::memory().ok().expect("failed to get memory information");
+
+        assert!(memory.free > 0);
+        assert!(memory.used > 0);
+        assert!(memory.total > 0);
+
+        assert_eq!(memory.free + memory.used, memory.total);
+    }
+}

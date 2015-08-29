@@ -1,5 +1,6 @@
 extern crate sigar;
 
+#[cfg(not(test))]
 fn main() {
     match sigar::memory() {
         Ok(memory) => println!("Memory: {:?}", memory),
