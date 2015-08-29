@@ -35,7 +35,7 @@ fn main() {
 
     run(Command::new("sh")
             .arg("-c")
-            .arg(&config_opts.join(" "))
+            .arg(&config_opts.connect(" "))
             .current_dir(&dst.join("build")));
 
     run(Command::new(make())
