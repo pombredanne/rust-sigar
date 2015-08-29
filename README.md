@@ -1,4 +1,4 @@
-# rust-sigar
+# rust-sigar [![Build Status](https://travis-ci.org/xoebus/rust-sigar.svg?branch=master)](https://travis-ci.org/xoebus/rust-sigar) [![](https://meritbadge.herokuapp.com/sigar)](https://crates.io/crates/sigar)
 
 Rust bindings for [libsigar][libsigar] for portably gathering system information.
 
