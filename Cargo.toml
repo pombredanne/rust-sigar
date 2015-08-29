@@ -2,6 +2,14 @@
 name = "sigar"
 version = "0.1.0"
 authors = ["Chris Brown <xoebus@xoeb.us>"]
+description = "Rust bindings for libsigar for gathering system information."
+homepage = "https://github.com/xoebus/rust-sigar"
+repository = "https://github.com/zsiciarz/rust-sigar"
+readme = "README.md"
+license = "MIT"
+
+[lib]
+name = "sigar"
 
 [dependencies]
 libc = "0.1.10"
