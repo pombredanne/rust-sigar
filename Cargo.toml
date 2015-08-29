@@ -7,9 +7,14 @@ homepage = "https://github.com/xoebus/rust-sigar"
 repository = "https://github.com/xoebus/rust-sigar"
 readme = "README.md"
 license = "MIT"
+links = "sigar"
+build = "build.rs"
 
 [lib]
 name = "sigar"
 
 [dependencies]
 libc = "0.1.10"
+
+[build-dependencies]
+pkg-config = "0.3.5"
