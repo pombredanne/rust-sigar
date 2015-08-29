@@ -6,15 +6,15 @@ mod ffi;
 
 #[derive(Debug)]
 pub struct Memory {
-    ram: u64,
-    total: u64,
-    used: u64,
-    free: u64,
-    actual_used: u64,
-    actual_free: u64,
+    pub ram: u64,
+    pub total: u64,
+    pub used: u64,
+    pub free: u64,
+    pub actual_used: u64,
+    pub actual_free: u64,
 
-    used_percent: f64,
-    free_percent: f64
+    pub used_percent: f64,
+    pub free_percent: f64
 }
 
 pub fn memory() -> Result<Memory, String> {
@@ -50,52 +50,86 @@ pub fn memory() -> Result<Memory, String> {
     }
 }
 
-// unsafe {
-//     let mut sigar_ptr : *mut sigar_t = std::ptr::null_mut();
-//
-//     let res = sigar_open(&mut sigar_ptr);
-//     if res != 0 {
-//         println!("{}", error(sigar_ptr, res))
-//     }
-//
-//     let mut mem = sigar_mem_t {
-//         ram: 0,
-//         total: 0,
-//         used: 0,
-//         free: 0,
-//         actual_used: 0,
-//         actual_free: 0,
-//
-//         used_percent: 0.0,
-//         free_percent: 0.0
-//     };
-//
-//     let res = sigar_mem_get(sigar_ptr, &mut mem);
-//     if res != 0 {
-//         println!("{}", error(sigar_ptr, res))
-//     }
-//     println!("{:?}", mem);
-//
-//     let mut cpu = sigar_cpu_t {
-//         user: 0,
-//         sys: 0,
-//         nice: 0,
-//         idle: 0,
-//         wait: 0,
-//         irq: 0,
-//         soft_irq: 0,
-//         stolen: 0,
-//         total: 0,
-//     };
-//
-//     let res = sigar_cpu_get(sigar_ptr, &mut cpu);
-//     if res != 0 {
-//         println!("{}", error(sigar_ptr, res))
-//     }
-//     println!("{:?}", cpu);
-//
-//     let res = sigar_close(sigar_ptr);
-//     if res != 0 {
-//         println!("{}", error(sigar_ptr, res))
-//     }
-// };
+#[derive(Debug)]
+pub struct CPU {
+    pub user: u64,
+    pub sys: u64,
+    pub nice: u64,
+    pub idle: u64,
+    pub wait: u64,
+    pub irq: u64,
+    pub soft_irq: u64,
+    pub stolen: u64,
+    pub total: u64,
+}
+
+pub fn cpu() -> Result<CPU, String> {
+    let mut sigar_ptr : *mut ffi::sigar_t = std::ptr::null_mut();
+
+    let res = unsafe { ffi::sigar_open(&mut sigar_ptr) };
+    if res != 0 {
+        return Err(ffi::error(sigar_ptr, res))
+    }
+
+    let mut cpu: ffi::sigar_cpu_t = Default::default();
+
+    let res = unsafe { ffi::sigar_cpu_get(sigar_ptr, &mut cpu) };
+    if res != 0 {
+        return Err(ffi::error(sigar_ptr, res))
+    }
+
+    let res = unsafe { ffi::sigar_close(sigar_ptr) };
+    if res != 0 {
+        Err("failed to close sigar".to_string())
+    } else {
+        Ok(CPU{
+            user: cpu.user,
+            sys: cpu.sys,
+            nice: cpu.nice,
+            idle: cpu.idle,
+            wait: cpu.wait,
+            irq: cpu.irq,
+            soft_irq: cpu.soft_irq,
+            stolen: cpu.stolen,
+            total: cpu.total,
+        })
+    }
+}
+
+#[derive(Debug)]
+pub struct Swap {
+    pub total: u64,
+    pub used: u64,
+    pub free: u64,
+    pub page_in: u64,
+    pub page_out: u64,
+}
+
+pub fn swap() -> Result<Swap, String> {
+    let mut sigar_ptr : *mut ffi::sigar_t = std::ptr::null_mut();
+
+    let res = unsafe { ffi::sigar_open(&mut sigar_ptr) };
+    if res != 0 {
+        return Err(ffi::error(sigar_ptr, res))
+    }
+
+    let mut swap: ffi::sigar_swap_t = Default::default();
+
+    let res = unsafe { ffi::sigar_swap_get(sigar_ptr, &mut swap) };
+    if res != 0 {
+        return Err(ffi::error(sigar_ptr, res))
+    }
+
+    let res = unsafe { ffi::sigar_close(sigar_ptr) };
+    if res != 0 {
+        Err("failed to close sigar".to_string())
+    } else {
+        Ok(Swap{
+            total: swap.total,
+            used: swap.used,
+            free: swap.free,
+            page_in: swap.page_in,
+            page_out: swap.page_out,
+        })
+    }
+}

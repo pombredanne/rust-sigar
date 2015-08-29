@@ -21,6 +21,9 @@ extern {
 
     // SIGAR_DECLARE(int) sigar_cpu_get(sigar_t *sigar, sigar_cpu_t *cpu);
     pub fn sigar_cpu_get(sigar: *mut sigar_t, mem: *mut sigar_cpu_t) -> c_int;
+
+    // SIGAR_DECLARE(int) sigar_swap_get(sigar_t *sigar, sigar_swap_t *swap);
+    pub fn sigar_swap_get(sigar: *mut sigar_t, swap: *mut sigar_swap_t) -> c_int;
 }
 
 #[repr(C)]
@@ -68,6 +71,44 @@ pub struct sigar_cpu_t {
     pub soft_irq: uint64_t,
     pub stolen: uint64_t,
     pub total: uint64_t,
+}
+
+impl Default for sigar_cpu_t {
+    fn default() -> sigar_cpu_t {
+        sigar_cpu_t {
+            user: 0,
+            sys: 0,
+            nice: 0,
+            idle: 0,
+            wait: 0,
+            irq: 0,
+            soft_irq: 0,
+            stolen: 0,
+            total: 0,
+        }
+    }
+}
+
+#[repr(C)]
+#[derive(Debug)]
+pub struct sigar_swap_t {
+    pub total: uint64_t,
+    pub used: uint64_t,
+    pub free: uint64_t,
+    pub page_in: uint64_t,
+    pub page_out: uint64_t,
+}
+
+impl Default for sigar_swap_t {
+    fn default() -> sigar_swap_t {
+        sigar_swap_t {
+            total: 0,
+            used: 0,
+            free: 0,
+            page_in: 0,
+            page_out: 0,
+        }
+    }
 }
 
 pub fn error(sigar: *mut sigar_t, code: c_int) -> String {
