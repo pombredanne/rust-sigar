@@ -1,6 +1,6 @@
 [package]
 name = "sigar"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["Chris Brown <xoebus@xoeb.us>"]
 description = "Rust bindings for libsigar for gathering system information."
 homepage = "https://github.com/xoebus/rust-sigar"
