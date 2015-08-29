@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = ["Chris Brown <xoebus@xoeb.us>"]
 description = "Rust bindings for libsigar for gathering system information."
 homepage = "https://github.com/xoebus/rust-sigar"
-repository = "https://github.com/zsiciarz/rust-sigar"
+repository = "https://github.com/xoebus/rust-sigar"
 readme = "README.md"
 license = "MIT"
 
