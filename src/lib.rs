@@ -146,8 +146,6 @@ mod tests {
         assert!(cpu.sys > 0);
         assert!(cpu.idle > 0);
         assert!(cpu.total > 0);
-
-        assert_eq!(cpu.user + cpu.sys + cpu.idle, cpu.total);
     }
 
     #[test]
